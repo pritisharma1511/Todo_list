@@ -1,0 +1,85 @@
+/* General body styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: blueviolet;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main container */
+div {
+  text-align: center;
+}
+
+/* Todo container */
+.todo-container {
+  width: 400px;
+  background: #ffffff;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}
+
+/* Create section */
+.create {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.create input {
+  width: 65%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.2s ease-in-out;
+}
+
+.create input:focus {
+  border-color: #007bff;
+}
+
+.create button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.create button:hover {
+  background-color: #0056b3;
+}
+
+/* Todo items */
+.todo-item {
+  background: #f1f3f6;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin: 8px 0;
+  color: #333;
+  font-size: 1rem;
+  text-align: left;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* No record message */
+.no-record {
+  color: #999;
+  font-size: 1.2rem;
+}
