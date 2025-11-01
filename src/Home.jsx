@@ -52,25 +52,52 @@ import React, { useState, useEffect } from 'react';
 import Create from './Create';
 import './App.css';
 import axios from 'axios';
+import { FaRegCircle, FaCheckCircle, FaTrashAlt } from "react-icons/fa";
 
 function Home() {
   const [todos, setTodos] = useState([]);
 
-  useEffect(() => {
-    const fetchTodos = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/todos/get');
-        if (response.data) {
-          setTodos(Array.isArray(response.data) ? response.data : []);
-        }
-      } catch (error) {
-        console.error("Error fetching todos:", error);
-        setTodos([]);
-      }
-    };
+  // Fetch todos
+  const fetchTodos = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/todos/get');
+      setTodos(Array.isArray(response.data) ? response.data : []);
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+      setTodos([]);
+    }
+  };
 
-    fetchTodos(); // initial load
-    const intervalId = setInterval(fetchTodos, 2000); // refresh every 2s
+  // Delete todo
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/todos/delete/${id}`);
+      setTodos(prev => prev.filter(todo => todo._id !== id));
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
+  };
+
+  // ✅ Toggle completion
+  const handleToggle = async (id, currentState) => {
+    try {
+      const newState = !currentState;
+      await axios.put(`http://localhost:3001/todos/update/${id}`, { completed: newState });
+
+      // Update UI immediately
+      setTodos(prev =>
+        prev.map(todo =>
+          todo._id === id ? { ...todo, completed: newState } : todo
+        )
+      );
+    } catch (error) {
+      console.error("Error updating todo:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTodos();
+    const intervalId = setInterval(fetchTodos, 2000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -84,13 +111,30 @@ function Home() {
       ) : (
         todos.map((todo, index) => (
           <div className="todo-item" key={todo._id || index}>
-            <div className="task-content">
-              <h3>{todo.task}</h3>
-              <BsCircle className="status-icon" />
+            <div className="todo-row">
+              {/* Left Circle Icon */}
+              <div className="icon-left" onClick={() => handleToggle(todo._id, todo.completed)}>
+                {todo.completed ? (
+                  <FaCheckCircle className="circle-icon completed-icon" />
+                ) : (
+                  <FaRegCircle className="circle-icon" />
+                )}
+              </div>
 
-            </div>
-            <div>
-              <span><BsFillTrashFill className="delete-icon" /></span>
+              {/* Task Content */}
+              <div className={`task-content ${todo.completed ? 'completed' : ''}`}>
+                <h3>{todo.task}</h3>
+                <span className="task-date">
+                  {todo.createdAt
+                    ? new Date(todo.createdAt).toLocaleDateString()
+                    : "No Date"}
+                </span>
+              </div>
+
+              {/* Delete Icon */}
+              <div className="icon-right" onClick={() => handleDelete(todo._id)}>
+                <FaTrashAlt className="delete-icon" />
+              </div>
             </div>
           </div>
         ))
