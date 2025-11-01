@@ -83,3 +83,59 @@ h1 {
   color: #999;
   font-size: 1.2rem;
 }
+/* === Added Task Styling Enhancements === */
+
+/* Task content container inside each todo item */
+.task-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 10px;
+}
+
+/* Task title (the main text) */
+.task-content h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #222;
+  letter-spacing: 0.5px;
+}
+
+/* Optional description (if added later) */
+.task-content p {
+  margin: 4px 0 6px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Task date styling */
+.task-date {
+  align-self: flex-end;
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 6px;
+}
+
+/* Hover animation for each todo card */
+.todo-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Add a subtle divider line between tasks */
+.todo-item:not(:last-child) {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 15px;
+}
+
+/* Optional — animate when new task appears */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.todo-item {
+  animation: fadeIn 0.3s ease-in-out;
+}

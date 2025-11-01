@@ -1,11 +1,20 @@
 import React from 'react';
 import { useState } from 'react';
+import axios from 'axios';
 import './App.css';
 
-const Create = () => {
+function Create() {
   const [task, setTask] = useState('');
   const handleAdd = () => {
-    // Functionality to add a new task will be implemented here
+
+    axios.post('http://localhost:3001/add', { task })
+      .then(response => {
+        console.log("Task added:", response.data);
+        setTask('');
+      })
+      .catch(error => {
+        console.error("Error adding task:", error);
+      });
   };
   return (
     <div className="create">
@@ -15,13 +24,6 @@ const Create = () => {
   );
 };
 
-function Create() {
-  return (
-    <div className="create">
-      <input type="text" placeholder="Enter task" />
-      <button type="button" onClick={handleAdd}>Add</button>
-    </div>
-  );
-}
+
 
 export default Create;
